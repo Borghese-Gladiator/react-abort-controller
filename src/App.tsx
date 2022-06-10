@@ -1,6 +1,7 @@
 import { FC, ReactElement } from 'react';
 import { Routes, Route, Link } from 'react-router-dom';
 import Post from './components/Post';
+import { wait } from './utils';
 import './App.css';
 
 const Home: FC = (): ReactElement => {
@@ -35,6 +36,10 @@ const About: FC = (): ReactElement => {
     </>
   )
 }
+
+wait(5000).then(() => {
+  console.log('5 seconds passed');
+});
 
 function App() {
   return (
