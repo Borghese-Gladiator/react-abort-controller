@@ -1,7 +1,11 @@
-export function wait(time: number): Promise<void> {
-  return new Promise<void>((resolve) => {
-    setTimeout(() => {
+export function wait(time: number, signal?: AbortSignal): Proimse<void> {
+  return new Promise<void>((resolve, reject) => {
+    const timeoutId = setTimeout(() => {
       resolve();
     }, time);
+    signal?.addEventListener('abort', () => {
+      clearTimeout(timeoutId);
+      reject();
+    });
   });
 }

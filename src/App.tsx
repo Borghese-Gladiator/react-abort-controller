@@ -37,9 +37,19 @@ const About: FC = (): ReactElement => {
   )
 }
 
-wait(5000).then(() => {
-  console.log('5 seconds passed');
-});
+const abortController = new AbortController();
+ 
+setTimeout(() => {
+  abortController.abort();
+}, 1000);
+ 
+wait(5000, abortController.signal)
+  .then(() => {
+    console.log('5 seconds passed');
+  })
+  .catch(() => {
+    console.log('Waiting was interrupted');
+  });
 
 function App() {
   return (
