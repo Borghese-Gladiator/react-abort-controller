@@ -11,8 +11,10 @@ function usePostLoading() {
   const { postId } = useParams<{ postId: string }>();
   const [isLoading, setIsLoading] = useState(false);
   const [post, setPost] = useState<Post | null>(null);
- 
+  
   useEffect(() => {
+    let didCancel = false;
+   
     setIsLoading(true);
     fetch(`https://jsonplaceholder.typicode.com/posts/${postId}`)
       .then((response) => {
@@ -22,11 +24,17 @@ function usePostLoading() {
         return Promise.reject();
       })
       .then((fetchedPost: Post) => {
-        setPost(fetchedPost);
+        if (!didCancel) {
+          setPost(fetchedPost);
+        }
       })
       .finally(() => {
         setIsLoading(false);
       });
+   
+    return () => {
+      didCancel = true;
+    }
   }, [postId]);
  
   return {
