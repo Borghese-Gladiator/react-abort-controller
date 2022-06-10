@@ -1,5 +1,6 @@
 import { FC, ReactElement } from 'react';
 import { Routes, Route, Link } from 'react-router-dom';
+import Post from './components/Post';
 import './App.css';
 
 const Home: FC = (): ReactElement => {
@@ -11,6 +12,7 @@ const Home: FC = (): ReactElement => {
       </main>
       <nav>
         <Link to="/about">About</Link>
+        <Link to="/posts/1">Post 1</Link>
       </nav>
     </>
   )
@@ -28,6 +30,7 @@ const About: FC = (): ReactElement => {
       </main>
       <nav>
         <Link to="/">Home</Link>
+        <Link to="/posts/1">Post 1</Link>
       </nav>
     </>
   )
@@ -39,6 +42,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/about" element={<About />} />
+        <Route path="/posts/:postId" element={<Post />} />
       </Routes>
     </div>
   );
