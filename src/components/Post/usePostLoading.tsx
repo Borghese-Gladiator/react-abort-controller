@@ -13,10 +13,12 @@ function usePostLoading() {
   const [post, setPost] = useState<Post | null>(null);
   
   useEffect(() => {
-    let didCancel = false;
+    const abortController = new AbortController();
    
     setIsLoading(true);
-    fetch(`https://jsonplaceholder.typicode.com/posts/${postId}`)
+    fetch(`https://jsonplaceholder.typicode.com/posts/${postId}`, {
+      signal: abortController.signal,
+    })
       .then((response) => {
         if (response.ok) {
           return response.json();
@@ -24,17 +26,15 @@ function usePostLoading() {
         return Promise.reject();
       })
       .then((fetchedPost: Post) => {
-        if (!didCancel) {
-          setPost(fetchedPost);
-        }
+        setPost(fetchedPost);
       })
       .finally(() => {
         setIsLoading(false);
       });
    
     return () => {
-      didCancel = true;
-    }
+      abortController.abort();
+    };
   }, [postId]);
  
   return {
