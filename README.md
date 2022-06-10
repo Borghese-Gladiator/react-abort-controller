@@ -1,4 +1,28 @@
-# Getting Started with Create React App
+# React Abort Controller
+First Abort Controller to handle race conditions in React - [https://wanago.io/2022/04/11/abort-controller-race-conditions-react/](https://wanago.io/2022/04/11/abort-controller-race-conditions-react/)
+
+## Notes
+
+#### Steps
+- `npx create-react-app --template typescript`
+- Installed and set up react-router-dom@6 - [https://reactrouter.com/docs/en/v6/getting-started/installation#create-react-app](https://reactrouter.com/docs/en/v6/getting-started/installation#create-react-app)
+- Add race condition code (Post component)
+  - Race Condition in Post code
+    - user fetches first post
+    - user switches to second post before first post finishes loading
+    - second post loads and displays
+    - first post loads and then overwrites
+- Added didCancel flag that prevents rerender if page was switched
+- Add AbortController to Post hook
+  > While the above solution fixes the problem, it is not optimal. The browser still waits for the HTTP request to finish but ignores its result. To improve this, we can use the AbortController.
+  - Flow of AbortController
+    - user fetches first post
+    - user switches to second post
+    - useEffect cleans after previous post and runs abortController.abort() before second post starts fetch
+    - second post loads and displays
+- Add AbortController to wait util
+
+## Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
