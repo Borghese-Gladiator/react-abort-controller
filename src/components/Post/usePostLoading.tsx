@@ -28,6 +28,13 @@ function usePostLoading() {
       .then((fetchedPost: Post) => {
         setPost(fetchedPost);
       })
+      .catch(() => {
+        if (abortController.signal.aborted) {
+          console.log('The user aborted the request');
+        } else {
+          console.error('The request failed');
+        }
+      })
       .finally(() => {
         setIsLoading(false);
       });
