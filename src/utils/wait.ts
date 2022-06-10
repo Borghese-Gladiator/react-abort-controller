@@ -1,4 +1,4 @@
-export function wait(time: number, signal?: AbortSignal): Proimse<void> {
+export function wait(time: number, signal?: AbortSignal): Promise<void> {
   return new Promise<void>((resolve, reject) => {
     const timeoutId = setTimeout(() => {
       resolve();
